@@ -19,6 +19,3 @@ class Author(models.Model):
     country = models.CharField(max_length=64)
     gender = models.CharField(max_length=16)
     native_language = models.CharField(max_length=32)
-
-
-
