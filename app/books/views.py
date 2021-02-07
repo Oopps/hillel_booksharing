@@ -1,26 +1,65 @@
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
 from books.models import Book
 from books.models import Author
+from books.forms import BookForm, AuthorForm
+
 
 # Create your views here.
 
 
 def books_list(request):
 
-    response_content = ''
+    context = {
+        'books_list': Book.objects.all()
+    }
 
-    for book in Book.objects.all():
-        response_content += f'ID: {book.id}, Author: {book.author} <br/>'
+    return render(request, 'books_list.html', context=context)
 
-    return HttpResponse(response_content)
+
+def books_create(request):
+
+    form_data = request.GET
+
+    if form_data:
+        form = BookForm(form_data)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/book/list/')
+    else:
+        form = BookForm()
+
+    context = {
+        "message": 'Book create',
+        "form": form,
+    }
+    return render(request, 'books_create.html', context=context)
 
 
 def authors_list(request):
 
-    response_content = ''
+    context = {
+        'authors_list': Author.objects.all()
+    }
 
-    for author in Author.objects.all():
-        response_content += f'Author name: {author.first_name}, ' \
-                            f'{author.second_name}<br/>'
+    return render(request, 'authors_list.html', context=context)
 
-    return HttpResponse(response_content)
+
+def authors_create(request):
+
+    form_data = request.GET
+
+    if form_data:
+        form = AuthorForm(form_data)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/book/author/list/')
+    else:
+        form = AuthorForm()
+
+    context = {
+        "message": 'Author create',
+        "form": form,
+    }
+    return render(request, 'authors_create.html', context=context)

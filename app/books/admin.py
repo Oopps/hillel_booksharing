@@ -1,11 +1,18 @@
-# from django.contrib import admin
-
-# Register your models here.
-# from django.contrib.auth.models import User
+from django.contrib import admin
 
 
-# class UserAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# admin.site.register(User, UserAdmin)
+from books.models import Author, Book
+
+
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Author, AuthorAdmin)
+
+
+class BookAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Book, BookAdmin)
