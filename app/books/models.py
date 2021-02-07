@@ -15,7 +15,7 @@ class Author(models.Model):
     first_name = models.CharField(max_length=64)
     second_name = models.CharField(max_length=64)
     date_of_birth = models.DateField()
-    date_of_death = models.DateField()
+    date_of_death = models.DateField(default=None)
     country = models.CharField(max_length=64)
     gender = models.CharField(max_length=16)
     native_language = models.CharField(max_length=32)
