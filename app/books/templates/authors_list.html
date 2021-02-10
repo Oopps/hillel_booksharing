@@ -6,8 +6,12 @@
 </head>
 <body>
 
+<a href="{% url 'author-create' %}"> Create an author </a> <br><br>
+
 {% for author in authors_list %}
-    Author: {{ author.first_name }} {{ author.second_name }} gender: {{ author.gender }} <br/>
+    Author: {{ author.first_name }} {{ author.second_name }} gender: {{ author.gender }}
+    <a href="{% url 'author-update' author.id %}"> Edit </a>
+    <br/>
 {% endfor %}
 
 </body>
