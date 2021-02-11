@@ -1,18 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<a href="{% url 'author-create' %}"> Create an author </a> <br><br>
 
-{% for author in authors_list %}
-    Author: {{ author.first_name }} {{ author.second_name }} Country: {{ author.country }}
-    <a href="{% url 'author-update' author.id %}"> Edit </a>
-    <br/>
-{% endfor %}
+{% block content %}
 
-</body>
-</html>
+   <a href="{% url 'author-create' %}"> Create an author </a>
+
+    <table border="1">
+        <tr>
+            <th>First Name</th>
+            <th>Second Name</th>
+            <th>Update</th>
+        </tr>
+    {% for author in authors_list %}
+        <tr>
+            <td>{{ author.first_name }}</td>
+            <td>{{ author.second_name }}</td>
+            <td><a href="{% url 'author-update' author.id %}"> Edit </a></td>
+        </tr>
+
+
+        <br/>
+    {% empty %}
+        NO DATA
+    {% endfor %}
+    </table>
+
+{% endblock content %}
+
+
