@@ -1,6 +1,5 @@
 
 from time import time
-
 from books.models import Log
 
 
@@ -14,5 +13,5 @@ class SimpleMiddleware:
         response = self.get_response(request)
         end = time()
         time_dif = end - start
-        Log.objects.create(path=str(request.path), method=str(request.method), time=time_dif)
+        Log.objects.create(path=request.path, method=request.method, time=time_dif)
         return response
