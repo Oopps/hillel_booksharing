@@ -1,18 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<a href="{% url 'book-create' %}"> Create a book </a> <br><br>
 
-{% for book in books_list %}
-    id: {{ book.id }} title: {{ book.title }}
-    <a href="{% url 'book-update' book.id %}"> Edit </a>
-    <br/>
-{% endfor %}
+{% block content %}
 
-</body>
-</html>
+    <a href="{% url 'book-create' %}"> Create a book </a> <br><br>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Book title</th>
+            <th>Update</th>
+        </tr>
+        {% for book in books_list %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.title }}</td>
+            <td><a href="{% url 'book-update' book.id %}"> Edit </a></td>
+        </tr>
+
+
+        <br/>
+    {% empty %}
+        NO DATA
+    {% endfor %}
+
+    </table>
+
+{% endblock content %}
+
+
+
