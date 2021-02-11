@@ -25,10 +25,10 @@ urlpatterns = [
     path('book/list/', views.books_list, name='book-list'),
     path('book/author/list/', views.authors_list, name='author-list'),
     path('book/create/', views.books_create, name='book-create'),
-    path('book/author/create', views.authors_create, name='author-create'),
-    path('book/update/<int:pk>', views.book_update, name='book-update'),
-    path('book/delete/<int:pk>', views.book_delete, name='book-delete'),
-    path('book/author/update/<int:pk>', views.author_update, name='author-update'),
-    path('book/author/delete/<int:pk>', views.author_delete, name='author-delete')
+    path('book/author/create/', views.authors_create, name='author-create'),
+    path('book/update/<int:pk>/', views.book_update, name='book-update'),
+    path('book/delete/<int:pk>/', views.book_delete, name='book-delete'),
+    path('book/author/update/<int:pk>/', views.author_update, name='author-update'),
+    path('book/author/delete/<int:pk>/', views.author_delete, name='author-delete')
 
 ]
