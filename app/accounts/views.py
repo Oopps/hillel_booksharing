@@ -8,9 +8,12 @@ from accounts.models import User
 
 
 class MyProfileView(LoginRequiredMixin, UpdateView):
-    model = User
+    queryset = User.objects.all()
     success_url = reverse_lazy('index')
     fields = (
         'first_name',
         'last_name',
     )
+
+    def get_object(self, queryset=None):
+        return self.request.user

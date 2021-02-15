@@ -23,18 +23,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('accounts/', include('django.contrib.auth.urls')),
-
+    path('books/', include('books.urls')),
     path('', views.Index.as_view(), name='index'),
-    path('book/list/', views.BookList.as_view(), name='book-list'),
-    path('book/author/list/', views.AuthorList.as_view(), name='author-list'),
-    path('book/create/', views.BookCreate.as_view(), name='book-create'),
-    path('book/author/create/', views.AuthorCreate.as_view(), name='author-create'),
-    path('book/update/<int:pk>/', views.BookUpdate.as_view(), name='book-update'),
-    path('book/delete/<int:pk>/', views.BookDelete.as_view(), name='book-delete'),
-    path('book/author/update/<int:pk>/', views.AuthorUpdate.as_view(), name='author-update'),
-    path('book/author/delete/<int:pk>/', views.AuthorDelete.as_view(), name='author-delete'),
 
-    path('accounts/my-profile/<int:pk>/', MyProfileView.as_view(), name='my-profile'),
+
+    path('accounts/my-profile/', MyProfileView.as_view(), name='my-profile'),
 
 
 ]
