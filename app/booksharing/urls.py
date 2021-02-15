@@ -14,21 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
+from accounts.views import MyProfileView
 from books import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', views.index, name='index'),
-    path('book/list/', views.books_list, name='book-list'),
-    path('book/author/list/', views.authors_list, name='author-list'),
-    path('book/create/', views.books_create, name='book-create'),
-    path('book/author/create/', views.authors_create, name='author-create'),
-    path('book/update/<int:pk>/', views.book_update, name='book-update'),
-    path('book/delete/<int:pk>/', views.book_delete, name='book-delete'),
-    path('book/author/update/<int:pk>/', views.author_update, name='author-update'),
-    path('book/author/delete/<int:pk>/', views.author_delete, name='author-delete')
+    path('accounts/', include('django.contrib.auth.urls')),
+
+    path('', views.Index.as_view(), name='index'),
+    path('book/list/', views.BookList.as_view(), name='book-list'),
+    path('book/author/list/', views.AuthorList.as_view(), name='author-list'),
+    path('book/create/', views.BookCreate.as_view(), name='book-create'),
+    path('book/author/create/', views.AuthorCreate.as_view(), name='author-create'),
+    path('book/update/<int:pk>/', views.BookUpdate.as_view(), name='book-update'),
+    path('book/delete/<int:pk>/', views.BookDelete.as_view(), name='book-delete'),
+    path('book/author/update/<int:pk>/', views.AuthorUpdate.as_view(), name='author-update'),
+    path('book/author/delete/<int:pk>/', views.AuthorDelete.as_view(), name='author-delete'),
+
+    path('accounts/my-profile/<int:pk>/', MyProfileView.as_view(), name='my-profile'),
+
 
 ]

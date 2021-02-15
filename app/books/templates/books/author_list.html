@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% if request.user.is_authenticated %}
+    <a href="{% url 'author-create' %}"> Create an author </a>
+{% endif %}
+
+
+
+    <table border="1">
+        <tr>
+            <th>First Name</th>
+            <th>Second Name</th>
+            {% if request.user.is_authenticated %}
+                <th>Update</th>
+            {% endif %}
+        </tr>
+    {% for author in author_list %}
+        <tr>
+            <td>{{ author.first_name }}</td>
+            <td>{{ author.second_name }}</td>
+            {% if request.user.is_authenticated %}
+                <td><a href="{% url 'author-update' author.id %}"> Edit </a></td>
+            {% endif %}
+        </tr>
+
+
+        <br/>
+    {% empty %}
+        NO DATA
+    {% endfor %}
+    </table>
+
+{% endblock content %}
+
+
