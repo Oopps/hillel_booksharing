@@ -20,9 +20,6 @@ class Author(models.Model):
     gender = models.BooleanField(null=True)
     native_language = models.CharField(max_length=32)
 
-    # def delete(self, **kwargs):
-    #     raise ProtectedError('This model can not be deleted')
-
 
 class Log(models.Model):
     path = models.CharField(max_length=512)
