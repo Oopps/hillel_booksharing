@@ -8,10 +8,14 @@ from faker import Faker
 class Command(BaseCommand):
     help = 'Generate Random Books Data'  # noqa
 
+    def add_arguments(self, parser):
+        parser.add_argument('qty', type=int)
+
     def handle(self, *args, **options):
         fake = Faker()
         book_list = []
-        for _ in range(10):
+
+        for _ in range(options['qty']):
             author = fake.name()
             title = fake.word().capitalize()
             publish_year = random.randint(0, datetime.now().year)
