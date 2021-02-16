@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% if request.user.is_authenticated %}
+    <a href="{% url 'book-create' %}"> Create a book </a> <br><br>
+{% endif %}
+
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Book title</th>
+            {% if request.user.is_authenticated %}
+            <th>Update</th>
+            {% endif %}
+        </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>{{ object.id }}</td>
+            <td>{{ object.title }}</td>
+            {% if request.user.is_authenticated %}
+            <td><a href="{% url 'book-update' object.id %}"> Edit </a></td>
+            {% endif %}
+        </tr>
+
+
+        <br/>
+    {% empty %}
+        NO DATA
+    {% endfor %}
+
+    </table>
+
+{% endblock content %}
+
+
+

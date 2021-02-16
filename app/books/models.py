@@ -1,7 +1,6 @@
 from django.db import models
 
 # Create your models here.
-from django.db.models import ProtectedError
 
 
 class Book(models.Model):
@@ -21,8 +20,8 @@ class Author(models.Model):
     gender = models.BooleanField(null=True)
     native_language = models.CharField(max_length=32)
 
-    def delete(self, **kwargs):
-        raise ProtectedError('This model can not be deleted')
+    # def delete(self, **kwargs):
+    #     raise ProtectedError('This model can not be deleted')
 
 
 class Log(models.Model):
