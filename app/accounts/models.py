@@ -13,4 +13,3 @@ class ContactUs(models.Model):
     contact_to_email = models.EmailField()
     message = models.CharField(max_length=2048)
     created = models.DateField(auto_now_add=True)
-
