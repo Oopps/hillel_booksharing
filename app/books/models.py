@@ -4,11 +4,13 @@ from django.db import models
 
 
 class Book(models.Model):
-    author = models.CharField(max_length=128)
     title = models.CharField(max_length=128)
     publish_year = models.PositiveSmallIntegerField()
     review = models.CharField(max_length=512)
     condition = models.PositiveSmallIntegerField()
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True, default=None)
+    author = models.ForeignKey('books.Author', on_delete=models.SET_NULL, null=True, default=None)
+    category = models.ForeignKey('books.Category', on_delete=models.SET_NULL, null=True, default=None)
 
 
 class Author(models.Model):
@@ -19,6 +21,10 @@ class Author(models.Model):
     country = models.CharField(max_length=64)
     gender = models.BooleanField(null=True)
     native_language = models.CharField(max_length=32)
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=64)
 
 
 class Log(models.Model):
