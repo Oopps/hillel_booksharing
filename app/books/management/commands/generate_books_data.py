@@ -1,7 +1,7 @@
 import random
 from datetime import datetime
 from django.core.management.base import BaseCommand
-from books.models import Book
+from books.models import Book, Author
 from faker import Faker
 
 
@@ -16,7 +16,7 @@ class Command(BaseCommand):
         book_list = []
 
         for _ in range(options['qty']):
-            author = fake.name()
+            author = Author.objects.order_by('?').last()
             title = fake.word().capitalize()
             publish_year = random.randint(0, datetime.now().year)
             review = fake.text()

@@ -10,6 +10,7 @@
     <table border="1">
         <tr>
             <th>ID</th>
+            <th>Author name</th>
             <th>Category</th>
             <th>Book title</th>
             {% if request.user.is_authenticated %}
@@ -19,6 +20,7 @@
         {% for book in book_list %}
         <tr>
             <td>{{ book.id }}</td>
+            <td>{{ book.author.first_name}} {{ book.author.second_name }}</td>
             <td>{{ book.category }}</td>
             <td>{{ book.title }}</td>
             {% if request.user.is_authenticated %}
