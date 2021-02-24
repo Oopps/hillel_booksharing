@@ -2,9 +2,9 @@
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, CreateView
 
-from accounts.models import User
+from accounts.models import User, ContactUs
 
 
 class MyProfileView(LoginRequiredMixin, UpdateView):
@@ -17,3 +17,12 @@ class MyProfileView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class ContactUsView(CreateView):
+    model = ContactUs
+    fields = (
+        'full_name',
+        'contact_to_email',
+        'message'
+    )

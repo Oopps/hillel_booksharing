@@ -10,22 +10,24 @@
     <table border="1">
         <tr>
             <th>ID</th>
+            <th>Author name</th>
+            <th>Category</th>
             <th>Book title</th>
             {% if request.user.is_authenticated %}
             <th>Update</th>
             {% endif %}
         </tr>
-        {% for object in object_list %}
+        {% for book in book_list %}
         <tr>
-            <td>{{ object.id }}</td>
-            <td>{{ object.title }}</td>
+            <td>{{ book.id }}</td>
+            <td>{{ book.author.first_name}} {{ book.author.second_name }}</td>
+            <td>{{ book.category }}</td>
+            <td>{{ book.title }}</td>
             {% if request.user.is_authenticated %}
-            <td><a href="{% url 'book-update' object.id %}"> Edit </a></td>
+            <td><a href="{% url 'book-update' book.id %}"> Edit </a></td>
             {% endif %}
         </tr>
 
-
-        <br/>
     {% empty %}
         NO DATA
     {% endfor %}
