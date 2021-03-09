@@ -2,6 +2,7 @@
 
 
 {% block content %}
+<a href="{% url 'download-xlsx' %}"> Downloand to XLSX</a> <br>
 {% if request.user.is_authenticated %}
     <a href="{% url 'book-create' %}"> Create a book </a> <br><br>
 {% endif %}
