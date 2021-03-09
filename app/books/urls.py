@@ -13,5 +13,6 @@ urlpatterns = [
     path('delete/<int:pk>/', views.BookDelete.as_view(), name='book-delete'),
     path('author/update/<int:pk>/', views.AuthorUpdate.as_view(), name='author-update'),
     path('author/delete/<int:pk>/', views.AuthorDelete.as_view(), name='author-delete'),
+    path('list/download/xlsx', views.export_books_to_xlsx, name='download-xlsx')
 
 ]
