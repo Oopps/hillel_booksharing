@@ -1,6 +1,5 @@
-<br>
 {% if request.user.is_authenticated %}
-
+    {{ request.user }} is logged.<br> <br>
     <a href="{% url 'my-profile' %}">Profile</a> <br>
     <a href="{% url 'logout' %}">Logout</a> <br>
 {% else %}
@@ -10,4 +9,9 @@
 <br>
 <a href="{% url 'index' %}"> Home </a> <br>
 <a href="{% url 'book-list' %}">Books list</a> <br>
+{% if request.user.is_authenticated %}
+    <a href="{% url 'my-book-list' %}">My books</a> <br>
+    <a href="{% url 'my-requested-books' %}">My requested books</a> <br>
+    <a href="{% url 'requested-books' %}">Requested books</a> <br>
+{% endif %}
 <a href="{% url 'author-list' %}">Authors list</a> <br><br><br>

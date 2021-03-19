@@ -23,6 +23,31 @@ class Author(models.Model):
     native_language = models.CharField(max_length=32)
 
 
+class RequestBook(models.Model):
+
+    STATUS_IN_PROGRESS = 10
+    STATUS_CONFIRMED = 20
+    STATUS_REJECTED = 30
+    STATUS_SENT_TO_RECIPIENT = 40
+    STATUS_RECIPIENT_RECEIVED_BOOK = 50
+    STATUS_SENT_BACK_TO_OWNER = 60
+    STATUS_OWNER_RECEIVED_BACK = 70
+
+    REQUEST_STATUSES = (
+        (STATUS_IN_PROGRESS, 'In progress'),
+        (STATUS_CONFIRMED, 'Confirmed '),
+        (STATUS_REJECTED, 'Rejected'),
+        (STATUS_SENT_TO_RECIPIENT, 'Sent via mail service'),
+        (STATUS_RECIPIENT_RECEIVED_BOOK, 'Received Book'),
+        (STATUS_SENT_BACK_TO_OWNER, 'Sent back'),
+        (STATUS_OWNER_RECEIVED_BACK, 'Received Book (Final)'),
+    )
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    recipient = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    status = models.PositiveSmallIntegerField(choices=REQUEST_STATUSES)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=64)
 

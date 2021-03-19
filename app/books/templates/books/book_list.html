@@ -14,6 +14,7 @@
             <th>Author name</th>
             <th>Category</th>
             <th>Book title</th>
+            <th></th>
             {% if request.user.is_authenticated %}
             <th>Update</th>
             {% endif %}
@@ -24,6 +25,7 @@
             <td>{{ book.author.first_name}} {{ book.author.second_name }}</td>
             <td>{{ book.category }}</td>
             <td>{{ book.title }}</td>
+            <td><a href="{% url 'create-book-request' book.id %}">Request Book</a></td>
             {% if request.user.is_authenticated %}
             <td><a href="{% url 'book-update' book.id %}"> Edit </a></td>
             {% endif %}

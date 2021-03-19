@@ -13,6 +13,12 @@ urlpatterns = [
     path('delete/<int:pk>/', views.BookDelete.as_view(), name='book-delete'),
     path('author/update/<int:pk>/', views.AuthorUpdate.as_view(), name='author-update'),
     path('author/delete/<int:pk>/', views.AuthorDelete.as_view(), name='author-delete'),
-    path('list/download/xlsx', views.export_books_to_xlsx, name='download-xlsx')
+    path('list/download/xlsx', views.export_books_to_xlsx, name='download-xlsx'),
+    path('list/my-books/', views.MyBookList.as_view(), name='my-book-list'),
+    path('list/my-requested-books/', views.MyRequestedBooks.as_view(), name='my-requested-books'),
+    path('list/requested-books/', views.RequestedBooks.as_view(), name='requested-books'),
+    path('req-books/confirm/<int:request_id>/', views.RequestBookConfirm.as_view(), name='req-books-confirm'),
+    path('req-books/reject/<int:request_id>/', views.RequestBookReject.as_view(), name='req-books-rejec'),
+    path('create/book/request/<int:book_id>/', views.RequestBookCreate.as_view(), name='create-book-request'),
 
 ]

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<a href="{% url 'download-xlsx' %}"> Downloand to XLSX</a> <br>
+
+    <table border="1">
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Book</th>
+            <th>Created</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ object.id }}</td>
+            <td>{{ object.book.title }}</td>
+            <td>{{ object.created }}</td>
+            <td>{{ object.get_status_display }}</td>
+            <td>
+
+                {% if object.status == 10 %}
+                <a href="{% url 'req-books-confirm' object.id %}">Confirm</a> |
+                <a href="{% url 'req-books-reject' object.id %}">Reject</a>
+                {% endif %}
+
+            </td>
+        </tr>
+
+    {% empty %}
+        NO DATA
+    {% endfor %}
+
+    </table>
+
+{% endblock content %}
