@@ -21,12 +21,14 @@
             <td>{{ object.created }}</td>
             <td>{{ object.get_status_display }}</td>
             <td>
-
-                {% if object.status == 10 %}
+                {% if object.status == mch.STATUS_IN_PROGRESS %}
                 <a href="{% url 'req-books-confirm' object.id %}">Confirm</a> |
                 <a href="{% url 'req-books-reject' object.id %}">Reject</a>
+                {% elif object.status == mch.STATUS_CONFIRMED%}
+                <a href="{% url 'sent-via-email' object.id %}">Sent Via Email</a>
+                {% elif object.status == mch.STATUS_SENT_BACK_TO_OWNER%}
+                <a href="{% url 'owner-received' object.id %}">I received back my book!</a>
                 {% endif %}
-
             </td>
         </tr>
 

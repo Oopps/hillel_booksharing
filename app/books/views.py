@@ -1,15 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, TemplateView
 
+from books.forms import BookForm, AuthorForm
 from books.models import Book, RequestBook
 from books.models import Author
 
 from openpyxl import Workbook
 from datetime import datetime
+from books import model_choises as mch
+from django.contrib import messages
 
 
 class Index(TemplateView):
@@ -49,64 +52,31 @@ class RequestedBooks(LoginRequiredMixin, ListView):
 
 class BookCreate(LoginRequiredMixin, CreateView):
     model = Book
-    success_url = reverse_lazy('book-list')
-    fields = (
-        'author',
-        'title',
-        'publish_year',
-        'review',
-        'condition',
-    )
+    success_url = reverse_lazy('my-book-list')
+    form_class = BookForm
 
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        obj.save()
-        return HttpResponseRedirect(self.success_url)
-
-
-class RequestBookCreate(LoginRequiredMixin, View):
-
-    def get(self, request, book_id):
-        book = get_object_or_404(Book, pk=book_id)
-        if not RequestBook.objects.filter(book=book, recipient=request.user).exists():
-            RequestBook.objects.create(book=book, recipient=request.user, status=10)
-        return redirect('book-list')
-
-
-class RequestBookConfirm(LoginRequiredMixin, View):
-
-    def get(self, request, request_id):
-        request_obj = get_object_or_404(RequestBook, pk=request_id, status=10)  # TODO
-        request_obj.status = 20
-        request_obj.save(update_fields=('status', ))
-        return redirect('requested-books')
-
-
-class RequestBookReject(LoginRequiredMixin, View):
-
-    def get(self, request, request_id):
-        request_obj = get_object_or_404(RequestBook, pk=request_id, status=10)  # TODO
-        request_obj.status = 30
-        request_obj.save(update_fields=('status', ))
-        return redirect('requested-books')
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Book was created!')
+        return super().get_success_url()
 
 
 class BookUpdate(LoginRequiredMixin, UpdateView):
     model = Book
-    success_url = reverse_lazy('book-list')
-    fields = (
-        'author',
-        'title',
-        'publish_year',
-        'review',
-        'condition',
-    )
+    success_url = reverse_lazy('my-book-list')
+    form_class = BookForm
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Book was updated!')
+        return super().get_success_url()
 
 
 class BookDelete(LoginRequiredMixin, DeleteView):
     model = Book
-    success_url = reverse_lazy('book-list')
+    success_url = reverse_lazy('my-book-list')
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Book was deleted!')
+        return super().get_success_url()
 
 
 class AuthorList(ListView):
@@ -116,34 +86,97 @@ class AuthorList(ListView):
 class AuthorCreate(LoginRequiredMixin, CreateView):
     model = Author
     success_url = reverse_lazy('author-list')
-    fields = (
-        'first_name',
-        'second_name',
-        'date_of_birth',
-        'date_of_death',
-        'country',
-        'gender',
-        'native_language',
-    )
+    form_class = AuthorForm
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Author was created!')
+        return super().get_success_url()
 
 
 class AuthorUpdate(LoginRequiredMixin, UpdateView):
     model = Author
     success_url = reverse_lazy('author-list')
-    fields = (
-        'first_name',
-        'second_name',
-        'date_of_birth',
-        'date_of_death',
-        'country',
-        'gender',
-        'native_language',
-    )
+    form_class = AuthorForm
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Author was updated!')
+        return super().get_success_url()
 
 
 class AuthorDelete(LoginRequiredMixin, DeleteView):
     model = Author
     success_url = reverse_lazy('author-list')
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Author was deleted!')
+        return super().get_success_url()
+
+
+class RequestBookCreate(LoginRequiredMixin, View):
+
+    def get(self, request, book_id):
+        book = get_object_or_404(Book, pk=book_id)
+        if not RequestBook.objects.filter(book=book, recipient=request.user, status=mch.STATUS_IN_PROGRESS).exists():
+            RequestBook.objects.create(book=book, recipient=request.user, status=mch.STATUS_IN_PROGRESS)
+        return redirect('book-list')
+
+
+class _ChangeRequestBaseView(LoginRequiredMixin, View):
+    CURRENT_STATUS = None
+    NEW_STATUS = None
+    REDIRECT_NAME = None
+    MESSAGE = None
+
+    def get(self, request, request_id):
+        request_obj = get_object_or_404(RequestBook, pk=request_id, status=self.CURRENT_STATUS)
+        request_obj.status = self.NEW_STATUS
+        request_obj.save(update_fields=('status',))
+
+        if self.MESSAGE:
+            messages.add_message(request, messages.INFO, self.MESSAGE)
+
+        return redirect(self.REDIRECT_NAME)
+
+
+class RequestBookConfirm(_ChangeRequestBaseView):
+    CURRENT_STATUS = mch.STATUS_IN_PROGRESS
+    NEW_STATUS = mch.STATUS_CONFIRMED
+    REDIRECT_NAME = 'requested-books'
+    MESSAGE = 'Book request confirmed!'
+
+
+class RequestBookSentViaEmail(_ChangeRequestBaseView):
+    CURRENT_STATUS = mch.STATUS_CONFIRMED
+    NEW_STATUS = mch.STATUS_SENT_TO_RECIPIENT
+    REDIRECT_NAME = 'requested-books'
+    MESSAGE = 'Book has been sent by mail!'
+
+
+class RequestBookReceivedBook(_ChangeRequestBaseView):
+    CURRENT_STATUS = mch.STATUS_SENT_TO_RECIPIENT
+    NEW_STATUS = mch.STATUS_RECIPIENT_RECEIVED_BOOK
+    REDIRECT_NAME = 'my-requested-books'
+
+
+class RequestBookReturn(_ChangeRequestBaseView):
+    CURRENT_STATUS = mch.STATUS_RECIPIENT_RECEIVED_BOOK
+    NEW_STATUS = mch.STATUS_SENT_BACK_TO_OWNER
+    REDIRECT_NAME = 'my-requested-books'
+
+
+class RequestBookOwnerReceived(_ChangeRequestBaseView):
+    CURRENT_STATUS = mch.STATUS_SENT_BACK_TO_OWNER
+    NEW_STATUS = mch.STATUS_OWNER_RECEIVED_BACK
+    REDIRECT_NAME = 'requested-books'
+
+
+class RequestBookReject(_ChangeRequestBaseView):
+
+    def get(self, request, request_id):
+        request_obj = get_object_or_404(RequestBook, pk=request_id, status=mch.STATUS_IN_PROGRESS)
+        request_obj.status = mch.STATUS_REJECTED
+        request_obj.save(update_fields=('status', ))
+        return redirect('requested-books')
 
 
 def export_books_to_xlsx(request):

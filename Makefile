@@ -13,3 +13,6 @@ migrate:
 
 makemigrations:
 	$(manage_py) makemigrations
+
+shell_plus:
+	$(manage_py) shell_plus --print-sql
