@@ -30,7 +30,7 @@ urlpatterns = [
     path('accounts/my-profile/', MyProfileView.as_view(), name='my-profile'),
     path('accounts/contact-us/', ContactUsView.as_view(), name='contact-us'),
     path('accounts/sing-up/', SignUpView.as_view(), name='signup'),
-    path('accounts/activate/<uuid:username>', ActivateView.as_view(), name='activate'),
+    path('accounts/activate/<uuid:username>/<token>/', ActivateView.as_view(), name='activate'),
 
 
 ]

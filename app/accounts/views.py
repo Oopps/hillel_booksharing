@@ -10,6 +10,7 @@ from django.views.generic.base import RedirectView
 from accounts.models import User, ContactUs
 from accounts.forms import SignUpForm
 from accounts.tasks import send_contact_us_email
+from booksharing.tokens import account_activation_token
 
 
 class MyProfileView(LoginRequiredMixin, UpdateView):
@@ -52,8 +53,9 @@ class ActivateView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         username = kwargs.pop('username')
+        token = kwargs.pop('token')
         user = get_object_or_None(User, username=username, is_active=False)
-        if user:
+        if user and account_activation_token.check_token(username, token):
             user.is_active = True
             user.save()
             messages.add_message(self.request, messages.INFO, 'Your account has been activated! ')

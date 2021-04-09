@@ -1,6 +1,7 @@
 from django import forms
 from accounts.tasks import send_activate_account_email
 from accounts.models import User
+from booksharing.tokens import account_activation_token
 
 
 class SignUpForm(forms.ModelForm):
@@ -32,6 +33,7 @@ class SignUpForm(forms.ModelForm):
 
         if commit:
             instance.save()
-        send_activate_account_email.delay(instance.username)
+        token = account_activation_token.make_token(instance.username)
+        send_activate_account_email.delay(instance.username, token)
 
         return instance
