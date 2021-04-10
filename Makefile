@@ -8,8 +8,14 @@ activate:
 runserver:
 	$(manage_py) runserver
 
+run_celery:
+	app/celery -A booksharing worker -l info
+
 migrate:
 	$(manage_py) migrate
 
 makemigrations:
 	$(manage_py) makemigrations
+
+shell_plus:
+	$(manage_py) shell_plus --print-sql

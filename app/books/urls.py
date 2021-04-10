@@ -18,7 +18,11 @@ urlpatterns = [
     path('list/my-requested-books/', views.MyRequestedBooks.as_view(), name='my-requested-books'),
     path('list/requested-books/', views.RequestedBooks.as_view(), name='requested-books'),
     path('req-books/confirm/<int:request_id>/', views.RequestBookConfirm.as_view(), name='req-books-confirm'),
-    path('req-books/reject/<int:request_id>/', views.RequestBookReject.as_view(), name='req-books-rejec'),
+    path('req-books/reject/<int:request_id>/', views.RequestBookReject.as_view(), name='req-books-reject'),
     path('create/book/request/<int:book_id>/', views.RequestBookCreate.as_view(), name='create-book-request'),
+    path('req-books/sent-via-email/<int:request_id>/', views.RequestBookSentViaEmail.as_view(), name='sent-via-email'),
+    path('req-books/book-received/<int:request_id>/', views.RequestBookReceivedBook.as_view(), name='book-received'),
+    path('req-books/book-return/<int:request_id>/', views.RequestBookReturn.as_view(), name='book-return'),
+    path('req-books/owner-received/<int:request_id>/', views.RequestBookOwnerReceived.as_view(), name='owner-received'),
 
 ]

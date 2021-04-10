@@ -1,5 +1,5 @@
 from django.db import models
-
+from books import model_choises as mch
 # Create your models here.
 
 
@@ -12,6 +12,9 @@ class Book(models.Model):
     author = models.ForeignKey('books.Author', on_delete=models.SET_NULL, null=True, default=None)
     category = models.ForeignKey('books.Category', on_delete=models.SET_NULL, null=True, default=None)
 
+    def __str__(self):
+        return self.title
+
 
 class Author(models.Model):
     first_name = models.CharField(max_length=64)
@@ -22,34 +25,26 @@ class Author(models.Model):
     gender = models.BooleanField(null=True)
     native_language = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.first_name + ' ' + self.second_name
+
 
 class RequestBook(models.Model):
 
-    STATUS_IN_PROGRESS = 10
-    STATUS_CONFIRMED = 20
-    STATUS_REJECTED = 30
-    STATUS_SENT_TO_RECIPIENT = 40
-    STATUS_RECIPIENT_RECEIVED_BOOK = 50
-    STATUS_SENT_BACK_TO_OWNER = 60
-    STATUS_OWNER_RECEIVED_BACK = 70
-
-    REQUEST_STATUSES = (
-        (STATUS_IN_PROGRESS, 'In progress'),
-        (STATUS_CONFIRMED, 'Confirmed '),
-        (STATUS_REJECTED, 'Rejected'),
-        (STATUS_SENT_TO_RECIPIENT, 'Sent via mail service'),
-        (STATUS_RECIPIENT_RECEIVED_BOOK, 'Received Book'),
-        (STATUS_SENT_BACK_TO_OWNER, 'Sent back'),
-        (STATUS_OWNER_RECEIVED_BACK, 'Received Book (Final)'),
-    )
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     recipient = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
-    status = models.PositiveSmallIntegerField(choices=REQUEST_STATUSES)
+    status = models.PositiveSmallIntegerField(choices=mch.REQUEST_STATUSES)
+
+    def __str__(self):
+        return self.recipient
 
 
 class Category(models.Model):
     name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
 
 
 class Log(models.Model):

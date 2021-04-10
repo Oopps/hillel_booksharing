@@ -21,7 +21,11 @@
             <td>{{ object.created }}</td>
             <td>{{ object.get_status_display }}</td>
             <td>
-
+                {% if object.status == mch.STATUS_SENT_TO_RECIPIENT %}
+                    <a href="{% url 'book-received' object.id %}">I got the book!</a>
+                {% elif object.status == mch.STATUS_RECIPIENT_RECEIVED_BOOK %}
+                    <a href="{% url 'book-return' object.id %}">Return the book to owner</a>
+                {% endif %}
 
             </td>
         </tr>
