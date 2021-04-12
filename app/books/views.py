@@ -20,10 +20,7 @@ class Index(TemplateView):
 
 
 class BookList(ListView):
-    model = Book
-
-    def get_queryset(self):
-        return self.model.objects.exclude(user=self.request.user).select_related('author', 'category')
+    queryset = Book.objects.all()
 
 
 class MyBookList(ListView):

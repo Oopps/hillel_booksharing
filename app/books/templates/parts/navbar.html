@@ -1,19 +1,49 @@
-{% if request.user.is_authenticated %}
-    {{ request.user }} is logged.<br> <br>
-    <a href="{% url 'my-profile' %}">Profile</a> <br>
-    <a href="{% url 'logout' %}">Logout</a> <br>
-{% else %}
-    <a href="{% url 'signup' %}">Sign up</a> <br>
-    <a href="{% url 'login' %}">Login</a> <br>
-{% endif %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'book-list' %}">Books list</a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'author-list' %}">Authors list</a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'contact-us' %}">Contact us</a>
+      </li>
+      {% if request.user.is_authenticated %}
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'my-profile' %}">My Profile</a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'my-book-list' %}">My books</a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'my-requested-books' %}">My requested books</a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'requested-books' %}">Requested books</a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      </li>
+        {% else %}
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+        {% endif %}
 
-<br>
-<a href="{% url 'index' %}"> Home </a> <br>
-<a href="{% url 'book-list' %}">Books list</a> <br>
-<a href="{% url 'contact-us' %}">Contact us</a> <br>
-{% if request.user.is_authenticated %}
-    <a href="{% url 'my-book-list' %}">My books</a> <br>
-    <a href="{% url 'my-requested-books' %}">My requested books</a> <br>
-    <a href="{% url 'requested-books' %}">Requested books</a> <br>
-{% endif %}
-<a href="{% url 'author-list' %}">Authors list</a> <br><br><br>
+    </ul>
+    <span class="navbar-text">
+        {% if request.user.is_authenticated %}
+            {{ request.user }} is logged
+        {% endif %}
+    </span>
+  </div>
+</nav>

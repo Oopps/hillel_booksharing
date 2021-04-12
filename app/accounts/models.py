@@ -9,6 +9,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     email = models.EmailField('email address', blank=False, null=False, unique=True)
+    avatar = models.FileField(null=True, default=True, upload_to='avatars')
 
     def save(self, *args, **kwargs):
         if not self.username:
