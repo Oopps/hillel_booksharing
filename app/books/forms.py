@@ -12,6 +12,7 @@ class BookForm(forms.ModelForm):
             'publish_year',
             'review',
             'condition',
+            'cover',
          )
 
 

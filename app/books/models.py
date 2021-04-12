@@ -11,6 +11,7 @@ class Book(models.Model):
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True, default=None)
     author = models.ForeignKey('books.Author', on_delete=models.SET_NULL, null=True, default=None)
     category = models.ForeignKey('books.Category', on_delete=models.SET_NULL, null=True, default=None)
+    cover = models.FileField(null=True, default=True, upload_to='covers')
 
     def __str__(self):
         return self.title

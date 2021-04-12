@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
 
 {% block content %}
+    <div class="row">
+        <div class="col">
 
 <h1> {{ message }} </h1>
 
-<p> form to update author </p>
+<p> Form to update author </p>
 
 <form method="post">
     {% csrf_token %}
-   {{ form.as_p }}
+   {{ form|crispy }}
     <button type="submit"> Submit </button>
     <br><br>
     {% if form.instance.id%}
@@ -17,5 +20,8 @@
     {% endif %}
 
 </form>
+        </div>
+    </div>
+
 {% endblock content %}
 
