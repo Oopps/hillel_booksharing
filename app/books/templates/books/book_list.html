@@ -27,7 +27,7 @@
             <td>{{ book.id }}</td>
             <td>{{ book.author.first_name}} {{ book.author.second_name }}</td>
             <td>{{ book.category }}</td>
-            <td>{{ book.title }}</td>
+            <td><a href="{% url 'book-update' book.id %}">{{ book.title }}</a></td>
             <td><a class="btn btn-info" href="{% url 'create-book-request' book.id %}">Request Book</a></td>
             {% if request.user.is_authenticated %}
             <td><a class="btn btn-info" href="{% url 'book-update' book.id %}"> Edit </a></td>
