@@ -21,6 +21,7 @@ flake8==3.8.4
 flake8-builtins==1.5.3
 flake8-print==4.0.0
 flower==0.9.7
+gunicorn==20.1.0
 humanize==3.3.0
 ipython==7.20.0
 ipython-genutils==0.2.0
