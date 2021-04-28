@@ -6,7 +6,6 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
 from django.views.generic.base import RedirectView
 
-
 from accounts.models import User, ContactUs
 from accounts.forms import SignUpForm
 from accounts.tasks import send_contact_us_email
